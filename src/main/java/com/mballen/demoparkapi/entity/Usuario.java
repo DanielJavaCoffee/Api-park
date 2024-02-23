@@ -5,7 +5,9 @@ import com.mballen.demoparkapi.enuns.Role;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.validator.constraints.Normalized;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -22,6 +24,7 @@ public class Usuario implements Serializable {
     @Email
     @Column(name = "username", nullable = false, unique = true, length = 150)
     private String username;
+
     @Column(name = "password", nullable = false, length = 300)
     private String password;
     @Enumerated(EnumType.STRING)
@@ -37,8 +40,8 @@ public class Usuario implements Serializable {
     private String modificadoPor;
 
     public void atualizarSenha(@Valid UsuarioPatchSenhaDto usuarioPatchSenhaDto){
-        if(usuarioPatchSenhaDto.password() != null){
-            this.password = usuarioPatchSenhaDto.password();
+        if(usuarioPatchSenhaDto.novaSenha() != null){
+            this.password = usuarioPatchSenhaDto.novaSenha();
         }
     }
 

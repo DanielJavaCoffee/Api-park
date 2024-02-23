@@ -1,10 +1,8 @@
 package com.mballen.demoparkapi.controller;
 
-
 import com.mballen.demoparkapi.dto.UsuarioCreatDto;
 import com.mballen.demoparkapi.dto.UsuarioListDto;
 import com.mballen.demoparkapi.dto.UsuarioPatchSenhaDto;
-import com.mballen.demoparkapi.entity.Usuario;
 import com.mballen.demoparkapi.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +33,7 @@ public class UsuarioController {
     }
 
     @PatchMapping()
-    public ResponseEntity<UsuarioPatchSenhaDto> atualizaoDeSenha(@RequestBody @Valid UsuarioPatchSenhaDto usuario){
+    public ResponseEntity<Void> atualizaoDeSenha(@RequestBody @Valid UsuarioPatchSenhaDto usuario){
         return usuarioService.atualizarSenha(usuario);
     }
 }
