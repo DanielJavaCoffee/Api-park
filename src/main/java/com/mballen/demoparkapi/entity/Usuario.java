@@ -1,6 +1,10 @@
 package com.mballen.demoparkapi.entity;
 
+import com.mballen.demoparkapi.dto.UsuarioPatchSenhaDto;
+import com.mballen.demoparkapi.enuns.Role;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.io.Serializable;
@@ -15,13 +19,14 @@ public class Usuario implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Email
     @Column(name = "username", nullable = false, unique = true, length = 150)
     private String username;
     @Column(name = "password", nullable = false, length = 300)
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 25)
-    private Role role;
+    private Role role = Role.ROLE_CLIENTE;
     @Column(name = "data_criacao")
     private LocalDate dataCriacao;
     @Column(name = "data_modificacao")
@@ -31,9 +36,10 @@ public class Usuario implements Serializable {
     @Column(name = "modificado_por")
     private String modificadoPor;
 
-    public enum Role {
-        ROLE_ADMIN,
-        ROLE_CLIENTE
+    public void atualizarSenha(@Valid UsuarioPatchSenhaDto usuarioPatchSenhaDto){
+        if(usuarioPatchSenhaDto.password() != null){
+            this.password = usuarioPatchSenhaDto.password();
+        }
     }
 
     @Override
