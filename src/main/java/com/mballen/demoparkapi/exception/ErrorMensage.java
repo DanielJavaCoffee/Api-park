@@ -12,7 +12,6 @@ import java.util.Map;
 
 @Getter @ToString
 public class ErrorMensage {
-
     private String path;
     private String method;
     private int status;
