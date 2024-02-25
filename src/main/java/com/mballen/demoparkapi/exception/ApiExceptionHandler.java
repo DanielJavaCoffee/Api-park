@@ -1,6 +1,7 @@
 package com.mballen.demoparkapi.exception;
 
 import com.mballen.demoparkapi.exceptionUsuario.UsernameUniqueViolationException;
+import com.mballen.demoparkapi.exceptionUsuario.UsuarioNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,6 +32,25 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErrorMensage> errorMensageUsernameUniqueViolationException(RuntimeException exception,
                                                                                      HttpServletRequest request){
         log.error("Api erro - ", exception );
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMensage(request, HttpStatus.CONFLICT, exception.getMessage()));
+    }
+
+    @ExceptionHandler(UsuarioNotFoundException.class)
+    public ResponseEntity<ErrorMensage> errorMensageUsuarioNotFoundException(RuntimeException exception,
+                                                                             HttpServletRequest request){
+        log.error("Api erro - ", exception);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMensage(request, HttpStatus.NOT_FOUND, "User não encontrado!"));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorMensage> errorMensageResponseEntity(RuntimeException exception, HttpServletRequest request){
+        log.error("Api erro - ", exception);
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)

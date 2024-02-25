@@ -24,17 +24,17 @@ import java.util.Optional;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     @Transactional
-    public ResponseEntity<UsuarioCreatDto> creat(UsuarioCreatDto usuarioCreateDto){
-        try{
+    public UsuarioCreatDto create(UsuarioCreatDto usuarioCreateDto) {
+        try {
             var usuario = new Usuario();
             BeanUtils.copyProperties(usuarioCreateDto, usuario);
             usuarioRepository.save(usuario);
-            return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCreateDto);
-        }catch (DataIntegrityViolationException exception){
+            return usuarioCreateDto;
+        } catch (DataIntegrityViolationException exception) {
             throw new UsernameUniqueViolationException(String.format("Username {%s} já cadastrado", usuarioCreateDto.username()));
         }
-
     }
+
     @Transactional(readOnly = true)
     public ResponseEntity<List<UsuarioListDto>> findAll() {
         List<UsuarioListDto> users = usuarioRepository.findAll().stream().map(UsuarioListDto::new).toList();

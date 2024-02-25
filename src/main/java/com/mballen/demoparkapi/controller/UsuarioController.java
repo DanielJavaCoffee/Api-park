@@ -25,7 +25,8 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioCreatDto> create(@RequestBody @Valid UsuarioCreatDto usuarioCreateDto){
-        return usuarioService.creat(usuarioCreateDto);
+        UsuarioCreatDto createdUsuario = usuarioService.create(usuarioCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUsuario);
     }
     @GetMapping("/all")
     public ResponseEntity<List<UsuarioListDto>> listaDeUsuarios(){
@@ -33,31 +34,17 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getByID(@PathVariable Long id) {
-        try {
-           UsuarioListDto usuarioListDto = usuarioService.buscaPorId(id);
-           return ResponseEntity.ok(usuarioListDto);
-        } catch (UsuarioNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<UsuarioListDto> getByID(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.buscaPorId(id));
     }
 
     @PatchMapping("/atualizarSenha")
     public ResponseEntity<String> atualizarSenha(@RequestBody @Valid UsuarioPatchSenhaDto usuarioPatchSenhaDto) {
-        try {
-            boolean senhaAtualizada = usuarioService.atualizarSenha(usuarioPatchSenhaDto);
-
-            if (senhaAtualizada) {
-                return ResponseEntity.ok("Senha atualizada com sucesso");
-            } else {
-                return ResponseEntity.badRequest().body("Falha ao atualizar a senha");
-            }
-        } catch (UsuarioNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        boolean senhaAtualizada = usuarioService.atualizarSenha(usuarioPatchSenhaDto);
+        if (senhaAtualizada) {
+            return ResponseEntity.ok("Senha atualizada com sucesso");
+        } else {
+            return ResponseEntity.badRequest().body("Falha ao atualizar a senha");
         }
     }
 }
