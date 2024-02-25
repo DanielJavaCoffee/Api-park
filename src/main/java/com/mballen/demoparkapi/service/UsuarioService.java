@@ -5,6 +5,7 @@ import com.mballen.demoparkapi.dto.UsuarioCreatDto;
 import com.mballen.demoparkapi.dto.UsuarioListDto;
 import com.mballen.demoparkapi.dto.UsuarioPatchSenhaDto;
 import com.mballen.demoparkapi.entity.Usuario;
+import com.mballen.demoparkapi.exceptionUsuario.PasswordInvalidException;
 import com.mballen.demoparkapi.exceptionUsuario.UsernameUniqueViolationException;
 import com.mballen.demoparkapi.exceptionUsuario.UsuarioNotFoundException;
 import com.mballen.demoparkapi.repository.UsuarioRepository;
@@ -60,10 +61,10 @@ public class UsuarioService {
         if (usuarioOptional.isPresent()) {
             var usuario = usuarioOptional.get();
             if (!usuario.getPassword().equals(usuarioPatchSenhaDto.senha())) {
-                throw new RuntimeException("A senha atual fornecida não é a mesma senha já cadastrada!");
+                throw new PasswordInvalidException("A senha atual fornecida não é a mesma senha já cadastrada!");
             }
             if (!usuarioPatchSenhaDto.novaSenha().equals(usuarioPatchSenhaDto.confirmarSenha())) {
-                throw new RuntimeException("As senhas não são iguais!");
+                throw new PasswordInvalidException("As senhas não são iguais!");
             }
             usuario.atualizarSenha(usuarioPatchSenhaDto);
             usuarioRepository.save(usuario);

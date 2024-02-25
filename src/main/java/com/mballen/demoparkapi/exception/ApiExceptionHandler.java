@@ -1,5 +1,6 @@
 package com.mballen.demoparkapi.exception;
 
+import com.mballen.demoparkapi.exceptionUsuario.PasswordInvalidException;
 import com.mballen.demoparkapi.exceptionUsuario.UsernameUniqueViolationException;
 import com.mballen.demoparkapi.exceptionUsuario.UsuarioNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,12 +49,12 @@ public class ApiExceptionHandler {
                 .body(new ErrorMensage(request, HttpStatus.NOT_FOUND, "User não encontrado!"));
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorMensage> errorMensageResponseEntity(RuntimeException exception, HttpServletRequest request){
+    @ExceptionHandler(PasswordInvalidException.class)
+    public ResponseEntity<ErrorMensage> errorMensagePasswordInvalidException(RuntimeException exception, HttpServletRequest request){
         log.error("Api erro - ", exception);
         return ResponseEntity
-                .status(HttpStatus.CONFLICT)
+                .status(HttpStatus.BAD_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorMensage(request, HttpStatus.CONFLICT, exception.getMessage()));
+                .body(new ErrorMensage(request, HttpStatus.BAD_REQUEST, exception.getMessage()));
     }
 }
