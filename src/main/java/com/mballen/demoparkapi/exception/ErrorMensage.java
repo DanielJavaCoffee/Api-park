@@ -46,5 +46,4 @@ public class ErrorMensage {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
     }
-
 }

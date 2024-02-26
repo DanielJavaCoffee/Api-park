@@ -72,4 +72,11 @@ public class UsuarioService {
         }
         throw new UsuarioNotFoundException();
     }
+
+    @Transactional
+    public void excluirUsuario(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException());
+        usuarioRepository.delete(usuario);
+    }
 }
