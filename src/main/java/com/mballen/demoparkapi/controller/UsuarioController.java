@@ -3,9 +3,7 @@ package com.mballen.demoparkapi.controller;
 import com.mballen.demoparkapi.dto.UsuarioCreatDto;
 import com.mballen.demoparkapi.dto.UsuarioListDto;
 import com.mballen.demoparkapi.dto.UsuarioPatchSenhaDto;
-import com.mballen.demoparkapi.entity.Usuario;
 import com.mballen.demoparkapi.exception.ErrorMensage;
-import com.mballen.demoparkapi.exceptionUsuario.UsuarioNotFoundException;
 import com.mballen.demoparkapi.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,14 +12,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.apache.bcel.classfile.annotation.RuntimeAnnos;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Usuarios.", description = "Contem todas as operaçoes relativas ao recursos para cadastro, edição e leitura de um usuário.")
 
@@ -90,7 +84,7 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Senha Atualizada.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioPatchSenhaDto.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
 
             @ApiResponse(
                     responseCode = "400",
