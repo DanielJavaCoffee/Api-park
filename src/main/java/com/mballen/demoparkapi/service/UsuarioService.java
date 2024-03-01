@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +22,14 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+
+    private final PasswordEncoder passwordEncoder;
     @Transactional
     public UsuarioCreatDto create(UsuarioCreatDto usuarioCreateDto) {
         try {
             var usuario = new Usuario();
             BeanUtils.copyProperties(usuarioCreateDto, usuario);
+            usuario.setPassword(passwordEncoder.encode(usuarioCreateDto.password()));
             usuarioRepository.save(usuario);
             return usuarioCreateDto;
         } catch (DataIntegrityViolationException exception) {
@@ -57,13 +61,13 @@ public class UsuarioService {
 
         if (usuarioOptional.isPresent()) {
             var usuario = usuarioOptional.get();
-            if (!usuario.getPassword().equals(usuarioPatchSenhaDto.senha())) {
+            if (!passwordEncoder.matches(usuarioPatchSenhaDto.senha(), usuario.getPassword())) {
                 throw new PasswordInvalidException("A senha atual fornecida não é a mesma senha já cadastrada!");
             }
             if (!usuarioPatchSenhaDto.novaSenha().equals(usuarioPatchSenhaDto.confirmarSenha())) {
                 throw new PasswordInvalidException("As senhas não são iguais!");
             }
-            usuario.atualizarSenha(usuarioPatchSenhaDto);
+            usuario.setPassword(passwordEncoder.encode(usuarioPatchSenhaDto.novaSenha()));
             usuarioRepository.save(usuario);
             return true;
         }

@@ -3,15 +3,16 @@ package com.mballen.demoparkapi.dto;
 import com.mballen.demoparkapi.entity.Usuario;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record UsuarioListDto(
         Long id,
         String username,
-        Role role,
+        Usuario.Role role,
 
-        LocalDate dataCriacao,
+        LocalDateTime dataCriacao,
 
-        LocalDate dataModificacao,
+        LocalDateTime dataModificacao,
 
         String criadoPor,
 
