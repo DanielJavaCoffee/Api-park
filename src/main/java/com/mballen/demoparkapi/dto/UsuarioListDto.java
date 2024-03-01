@@ -1,7 +1,6 @@
 package com.mballen.demoparkapi.dto;
 
 import com.mballen.demoparkapi.entity.Usuario;
-import com.mballen.demoparkapi.enuns.Role;
 
 import java.time.LocalDate;
 

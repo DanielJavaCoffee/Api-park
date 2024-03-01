@@ -1,6 +1,5 @@
 package com.mballen.demoparkapi.service;
 
-import ch.qos.logback.core.net.server.Client;
 import com.mballen.demoparkapi.dto.UsuarioCreatDto;
 import com.mballen.demoparkapi.dto.UsuarioListDto;
 import com.mballen.demoparkapi.dto.UsuarioPatchSenhaDto;
@@ -10,10 +9,8 @@ import com.mballen.demoparkapi.exceptionUsuario.UsernameUniqueViolationException
 import com.mballen.demoparkapi.exceptionUsuario.UsuarioNotFoundException;
 import com.mballen.demoparkapi.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.apache.bcel.classfile.annotation.RuntimeAnnos;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,5 +75,17 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNotFoundException());
         usuarioRepository.delete(usuario);
+    }
+
+    @Transactional(readOnly = true)
+    public Usuario buscaPorUsername(String username) {
+        return usuarioRepository.findByName(username).orElseThrow(
+                () -> new UsuarioNotFoundException()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Usuario.Role buscaRolePorUsername(String username) {
+        return usuarioRepository.findRoleByUsername(username);
     }
 }
