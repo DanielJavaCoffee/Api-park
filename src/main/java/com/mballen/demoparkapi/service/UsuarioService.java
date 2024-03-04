@@ -83,7 +83,7 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public Usuario buscaPorUsername(String username) {
-        return usuarioRepository.findByName(username).orElseThrow(
+        return usuarioRepository.findByUsername(username).orElseThrow(
                 () -> new UsuarioNotFoundException()
         );
     }
