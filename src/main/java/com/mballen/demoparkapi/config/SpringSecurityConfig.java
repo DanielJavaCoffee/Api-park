@@ -1,5 +1,6 @@
 package com.mballen.demoparkapi.config;
 
+import com.mballen.demoparkapi.jwt.JwtAuthenticationEntryPoint;
 import com.mballen.demoparkapi.jwt.JwtAuthorizationFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,8 @@ public class SpringSecurityConfig {
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).addFilterBefore(
                 jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class
-        ).build();
+                ).exceptionHandling(exception -> exception.authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
+                .build();
     }
 
     @Bean
