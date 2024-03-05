@@ -1,5 +1,7 @@
 package com.mballen.demoparkapi.jwt;
 
+
+
 import com.mballen.demoparkapi.entity.Usuario;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -13,11 +15,11 @@ public class JwtUserDetails extends User {
         this.usuario = usuario;
     }
 
-    public Long getId(){
+    public Long getId() {
         return this.usuario.getId();
     }
 
-    public String getRole(){
-       return this.usuario.getRole().name();
+    public String getRole() {
+        return this.usuario.getRole().name();
     }
 }

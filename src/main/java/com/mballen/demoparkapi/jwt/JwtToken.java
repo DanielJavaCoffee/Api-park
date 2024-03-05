@@ -1,6 +1,5 @@
 package com.mballen.demoparkapi.jwt;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +9,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter @Setter
 public class JwtToken {
-
     private String token;
-
-
 }

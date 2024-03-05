@@ -8,6 +8,7 @@ import com.mballen.demoparkapi.exceptionUsuario.PasswordInvalidException;
 import com.mballen.demoparkapi.exceptionUsuario.UsernameUniqueViolationException;
 import com.mballen.demoparkapi.exceptionUsuario.UsuarioNotFoundException;
 import com.mballen.demoparkapi.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -82,14 +83,19 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public Usuario buscaPorUsername(String username) {
+    public List<Usuario> buscarTodos() {
+        return usuarioRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Usuario buscarPorUsername(String username) {
         return usuarioRepository.findByUsername(username).orElseThrow(
-                () -> new UsuarioNotFoundException()
+                () -> new EntityNotFoundException(String.format("Usuario com '%s' não encontrado", username))
         );
     }
 
     @Transactional(readOnly = true)
-    public Usuario.Role buscaRolePorUsername(String username) {
+    public Usuario.Role buscarRolePorUsername(String username) {
         return usuarioRepository.findRoleByUsername(username);
     }
 }

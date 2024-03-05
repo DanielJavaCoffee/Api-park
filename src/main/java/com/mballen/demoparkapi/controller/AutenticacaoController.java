@@ -34,7 +34,7 @@ public class AutenticacaoController {
         try {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(usuarioLoginDto.username(), usuarioLoginDto.password());
             authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-            JwtToken jwtToken = jwtUserDetailsService.getTokenAuthentication(usuarioLoginDto.username());
+            JwtToken jwtToken = jwtUserDetailsService.getTokenAuthenticated(usuarioLoginDto.username());
             return ResponseEntity.ok(jwtToken);
         }catch (AuthenticationException exception){
             log.warn("Bad credentials from username{} " + usuarioLoginDto.username());
