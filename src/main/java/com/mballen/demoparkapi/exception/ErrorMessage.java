@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter @ToString
-public class ErrorMensage {
+public class ErrorMessage {
     private String path;
     private String method;
     private int status;
@@ -20,10 +20,10 @@ public class ErrorMensage {
     private String mensage;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> errors;
-    public ErrorMensage(){
+    public ErrorMessage(){
     }
 
-    public ErrorMensage(HttpServletRequest request, HttpStatus httpStatus, String mensage){
+    public ErrorMessage(HttpServletRequest request, HttpStatus httpStatus, String mensage){
         this.path = request.getRequestURI();
         this.method = request.getMethod();
         this.status = httpStatus.value();
@@ -31,7 +31,7 @@ public class ErrorMensage {
         this.mensage = mensage;
     }
 
-    public ErrorMensage(HttpServletRequest request, HttpStatus httpStatus, String mensage, BindingResult bindingResult){
+    public ErrorMessage(HttpServletRequest request, HttpStatus httpStatus, String mensage, BindingResult bindingResult){
         this.path = request.getRequestURI();
         this.method = request.getMethod();
         this.status = httpStatus.value();

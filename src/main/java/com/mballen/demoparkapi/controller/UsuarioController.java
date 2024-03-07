@@ -3,7 +3,7 @@ package com.mballen.demoparkapi.controller;
 import com.mballen.demoparkapi.dto.UsuarioCreatDto;
 import com.mballen.demoparkapi.dto.UsuarioListDto;
 import com.mballen.demoparkapi.dto.UsuarioPatchSenhaDto;
-import com.mballen.demoparkapi.exception.ErrorMensage;
+import com.mballen.demoparkapi.exception.ErrorMessage;
 import com.mballen.demoparkapi.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -36,11 +36,11 @@ public class UsuarioController {
 
                @ApiResponse(responseCode = "409",
                             description = "Usuário já cadastrado.",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMensage.class))),
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
 
               @ApiResponse(responseCode = "422",
                            description = "Dados de entradas inválidos.",
-                           content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMensage.class))),
+                           content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
               }
     )
     @PostMapping
@@ -59,7 +59,7 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "403",
                     description = "Recurso solicitado restrito.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMensage.class))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
             )
             }
     )
@@ -78,11 +78,11 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "403",
                     description = "Usuário sem permissão para acessar este recurso.",
-                    content = @Content(mediaType = "application/json", schema = @Schema (implementation = ErrorMensage.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema (implementation = ErrorMessage.class))),
             @ApiResponse(
                     responseCode = "404",
                     description = "Usuário não encontrado.",
-                    content = @Content(mediaType = "application/json", schema = @Schema (implementation = ErrorMensage.class)))
+                    content = @Content(mediaType = "application/json", schema = @Schema (implementation = ErrorMessage.class)))
             }
     )
     @GetMapping("/{id}")
@@ -101,21 +101,21 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "400",
                     description = "A senha atual fornecida não é a mesma senha já cadastrada!",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMensage.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
 
            @ApiResponse(
                    responseCode = "403",
                    description = "Usuário sem permissão para acessar este recurso.",
-                   content = @Content(mediaType = "application/json", schema = @Schema (implementation = ErrorMensage.class))),
+                   content = @Content(mediaType = "application/json", schema = @Schema (implementation = ErrorMessage.class))),
             @ApiResponse(
                     responseCode = "404",
                     description = "Usuário não encontrado.",
-                    content = @Content(mediaType = "application/json", schema = @Schema (implementation = ErrorMensage.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema (implementation = ErrorMessage.class))),
 
             @ApiResponse(
                     responseCode = "422",
                     description = "Dados de entradas inválidos.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMensage.class)))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
            }
     )
     @PatchMapping("/atualizarSenha")

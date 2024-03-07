@@ -2,7 +2,7 @@ package com.mballen.demoparkapi;
 
 import com.mballen.demoparkapi.dto.UsuarioListDto;
 import com.mballen.demoparkapi.dto.UsuarioPatchSenhaDto;
-import com.mballen.demoparkapi.exception.ErrorMensage;
+import com.mballen.demoparkapi.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.mballen.demoparkapi.dto.UsuarioCreatDto;
@@ -49,14 +49,14 @@ public class UsuarioIT {
 
         logger.info("Iniciando teste criarUsuario_ComUsernameInvalido_RetornaUsuarioCriadoStatus422");
 
-        ErrorMensage errorMensage = webTestClient
+        ErrorMessage errorMensage = webTestClient
                 .post()
                 .uri("/api/v1/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new UsuarioCreatDto("", "123456"))
                 .exchange()
                 .expectStatus().isEqualTo(422)
-                .expectBody(ErrorMensage.class)
+                .expectBody(ErrorMessage.class)
                 .returnResult().getResponseBody();
 
        Assertions.assertThat(errorMensage).isNotNull();
@@ -69,7 +69,7 @@ public class UsuarioIT {
                 .bodyValue(new UsuarioCreatDto("tody@email", "123456"))
                 .exchange()
                 .expectStatus().isEqualTo(422)
-                .expectBody(ErrorMensage.class)
+                .expectBody(ErrorMessage.class)
                 .returnResult().getResponseBody();
 
         Assertions.assertThat(errorMensage).isNotNull();
@@ -83,14 +83,14 @@ public class UsuarioIT {
 
         logger.info("Iniciando teste criarUsuario_ComPasswordInvalido_RetornaUsuarioCriadoStatus422");
 
-        ErrorMensage errorMensage = webTestClient
+        ErrorMessage errorMensage = webTestClient
                 .post()
                 .uri("/api/v1/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new UsuarioCreatDto("today@gmail.com", ""))
                 .exchange()
                 .expectStatus().isEqualTo(422)
-                .expectBody(ErrorMensage.class)
+                .expectBody(ErrorMessage.class)
                 .returnResult().getResponseBody();
 
         Assertions.assertThat(errorMensage).isNotNull();
@@ -103,7 +103,7 @@ public class UsuarioIT {
                 .bodyValue(new UsuarioCreatDto("tody@gmail.com", "12345"))
                 .exchange()
                 .expectStatus().isEqualTo(422)
-                .expectBody(ErrorMensage.class)
+                .expectBody(ErrorMessage.class)
                 .returnResult().getResponseBody();
 
         Assertions.assertThat(errorMensage).isNotNull();
@@ -116,7 +116,7 @@ public class UsuarioIT {
                 .bodyValue(new UsuarioCreatDto("tody@gmail.com", "1234567"))
                 .exchange()
                 .expectStatus().isEqualTo(422)
-                .expectBody(ErrorMensage.class)
+                .expectBody(ErrorMessage.class)
                 .returnResult().getResponseBody();
 
         Assertions.assertThat(errorMensage).isNotNull();
@@ -130,14 +130,14 @@ public class UsuarioIT {
 
         logger.info("Iniciando teste criarUsuario_ComUsernameRepetido_RetornaUsuarioCriadoStatus409");
 
-        ErrorMensage errorMensage = webTestClient
+        ErrorMessage errorMensage = webTestClient
                 .post()
                 .uri("/api/v1/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new UsuarioCreatDto("mama@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isEqualTo(409)
-                .expectBody(ErrorMensage.class)
+                .expectBody(ErrorMessage.class)
                 .returnResult().getResponseBody();
 
         Assertions.assertThat(errorMensage).isNotNull();
@@ -147,13 +147,28 @@ public class UsuarioIT {
     }
 
     @Test
-    public void buscarUsuario_ComId_RetornaUsuarioCriadoStatus200(){
+    public void buscarUsuario_ComIdExistente_RetornaUsuarioComStatus200(){
 
         logger.info("Iniciando teste buscarUsuario_ComId_RetornaUsuarioCriadoStatus200");
 
         UsuarioListDto usuarioListDto = webTestClient
                 .get()
+                .uri("/api/v1/usuarios/110")
+                .headers(JwtAuthentication.getHeaderAuthorization(webTestClient, "mama@gmail.com", "123456"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(UsuarioListDto.class)
+                .returnResult().getResponseBody();
+
+        Assertions.assertThat(usuarioListDto).isNotNull();
+        Assertions.assertThat(usuarioListDto.id()).isEqualTo(110);
+        Assertions.assertThat(usuarioListDto.username()).isEqualTo("mama@gmail.com");
+
+
+        usuarioListDto = webTestClient
+                .get()
                 .uri("/api/v1/usuarios/111")
+                .headers(JwtAuthentication.getHeaderAuthorization(webTestClient, "mama@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(UsuarioListDto.class)
@@ -161,21 +176,32 @@ public class UsuarioIT {
 
         Assertions.assertThat(usuarioListDto).isNotNull();
         Assertions.assertThat(usuarioListDto.id()).isEqualTo(111);
-        Assertions.assertThat(usuarioListDto.username()).isEqualTo("mama@gmail.com");
+        Assertions.assertThat(usuarioListDto.username()).isEqualTo("boby@gmail.com");
 
-        logger.info("Teste buscarUsuario_ComId_RetornaUsuarioCriadoStatus200 concluído com sucesso");
+        usuarioListDto = webTestClient
+                .get()
+                .uri("/api/v1/usuarios/112")
+                .headers(JwtAuthentication.getHeaderAuthorization(webTestClient, "maria@gmail.com", "123456"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(UsuarioListDto.class)
+                .returnResult().getResponseBody();
+
+        Assertions.assertThat(usuarioListDto).isNotNull();
+        Assertions.assertThat(usuarioListDto.id()).isEqualTo(112);
+        Assertions.assertThat(usuarioListDto.username()).isEqualTo("maria@gmail.com");
     }
 
     @Test
     public void buscarUsuario_ComId_InexistenteStatus404(){
         logger.info("Iniciando teste buscarUsuario_ComId_InexistenteStatus404");
 
-        ErrorMensage errorMensage = webTestClient
+        ErrorMessage errorMensage = webTestClient
                 .get()
                 .uri("/api/v1/usuarios/155")
                 .exchange()
                 .expectStatus().isNotFound()
-                .expectBody(ErrorMensage.class)
+                .expectBody(ErrorMessage.class)
                 .returnResult().getResponseBody();
 
         Assertions.assertThat(errorMensage).isNotNull();
@@ -214,14 +240,14 @@ public class UsuarioIT {
         try {
             logger.info("Iniciando teste:  AtualizarSenha_ComIdInexistente_Status404");
 
-            ErrorMensage errorMensage = webTestClient
+            ErrorMessage errorMensage = webTestClient
                     .patch()
                     .uri("/api/v1/usuarios/atualizarSenha")
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(new UsuarioPatchSenhaDto(1L, "123456", "123456", "123456"))
                     .exchange()
                     .expectStatus().isNotFound()
-                    .expectBody(ErrorMensage.class)
+                    .expectBody(ErrorMessage.class)
                     .returnResult().getResponseBody();
             Assertions.assertThat(errorMensage).isNotNull();
             Assertions.assertThat(errorMensage.getStatus()).isEqualTo(404);
@@ -238,14 +264,14 @@ public class UsuarioIT {
         try {
             logger.info("Iniciando teste:  testAtualizarSenha_ComUsuarioPatchSenhaDtoRetornaComSenhaAtualErrada_UsuarioPatchSenhaDtoStatus400");
 
-            ErrorMensage errorMensage = webTestClient
+            ErrorMessage errorMensage = webTestClient
                     .patch()
                     .uri("/api/v1/usuarios/atualizarSenha")
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue( new UsuarioPatchSenhaDto(111L, "123457", "123456", "123456"))
                     .exchange()
                     .expectStatus().isBadRequest()
-                    .expectBody(ErrorMensage.class)
+                    .expectBody(ErrorMessage.class)
                     .returnResult().getResponseBody();
             Assertions.assertThat(errorMensage).isNotNull();
             Assertions.assertThat(errorMensage.getStatus()).isEqualTo(400);
@@ -262,14 +288,14 @@ public class UsuarioIT {
         try {
             logger.info("Iniciando teste:  testAtualizarSenha_ComUsuarioPatchDtoNovaSenhaEConfirmarSenhaErrados_RetornandoStatus400");
 
-            ErrorMensage errorMensage = webTestClient
+            ErrorMessage errorMensage = webTestClient
                     .patch()
                     .uri("/api/v1/usuarios/atualizarSenha")
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(new UsuarioPatchSenhaDto(111L, "123456", "123457", "123458"))
                     .exchange()
                     .expectStatus().isBadRequest()
-                    .expectBody(ErrorMensage.class)
+                    .expectBody(ErrorMessage.class)
                     .returnResult().getResponseBody();
             Assertions.assertThat(errorMensage).isNotNull();
             Assertions.assertThat(errorMensage.getStatus()).isEqualTo(400);
@@ -286,14 +312,14 @@ public class UsuarioIT {
         try {
             logger.info("Iniciando teste: testAtualizarSenha_ComUsuarioPatchDtoCamposInvalidos_RetornandoStatus422");
 
-            ErrorMensage errorMensage = webTestClient
+            ErrorMessage errorMensage = webTestClient
                     .patch()
                     .uri("/api/v1/usuarios/atualizarSenha")
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(new UsuarioPatchSenhaDto(111L, "12345", "12345", "123485434"))
                     .exchange()
                     .expectStatus().isEqualTo(422)
-                    .expectBody(ErrorMensage.class)
+                    .expectBody(ErrorMessage.class)
                     .returnResult().getResponseBody();
             Assertions.assertThat(errorMensage).isNotNull();
             Assertions.assertThat(errorMensage.getStatus()).isEqualTo(422);
