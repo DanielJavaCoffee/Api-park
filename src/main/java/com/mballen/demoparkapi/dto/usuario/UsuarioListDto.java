@@ -1,8 +1,6 @@
-package com.mballen.demoparkapi.dto;
+package com.mballen.demoparkapi.dto.usuario;
 
 import com.mballen.demoparkapi.entity.Usuario;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record UsuarioListDto(

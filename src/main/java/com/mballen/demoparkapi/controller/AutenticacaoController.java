@@ -1,6 +1,6 @@
 package com.mballen.demoparkapi.controller;
 
-import com.mballen.demoparkapi.dto.UsuarioLoginDto;
+import com.mballen.demoparkapi.dto.usuario.UsuarioLoginDto;
 import com.mballen.demoparkapi.exception.ErrorMessage;
 import com.mballen.demoparkapi.jwt.JwtToken;
 import com.mballen.demoparkapi.jwt.JwtUserDetailsService;

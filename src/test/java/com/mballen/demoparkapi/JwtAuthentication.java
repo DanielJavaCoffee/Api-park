@@ -1,6 +1,6 @@
 package com.mballen.demoparkapi;
 
-import com.mballen.demoparkapi.dto.UsuarioLoginDto;
+import com.mballen.demoparkapi.dto.usuario.UsuarioLoginDto;
 import com.mballen.demoparkapi.jwt.JwtToken;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.reactive.server.WebTestClient;

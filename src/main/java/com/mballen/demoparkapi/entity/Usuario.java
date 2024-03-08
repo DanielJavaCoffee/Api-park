@@ -1,6 +1,6 @@
 package com.mballen.demoparkapi.entity;
 
-import com.mballen.demoparkapi.dto.UsuarioPatchSenhaDto;
+import com.mballen.demoparkapi.dto.usuario.UsuarioPatchSenhaDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -9,7 +9,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

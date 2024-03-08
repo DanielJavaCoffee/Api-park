@@ -1,4 +1,4 @@
-package com.mballen.demoparkapi.dto;
+package com.mballen.demoparkapi.dto.usuario;
 
 
 import jakarta.validation.constraints.NotBlank;

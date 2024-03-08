@@ -1,5 +1,6 @@
 package com.mballen.demoparkapi.exception;
 
+import com.mballen.demoparkapi.exceptionUsuario.CpfUniqueViolationException;
 import com.mballen.demoparkapi.exceptionUsuario.PasswordInvalidException;
 import com.mballen.demoparkapi.exceptionUsuario.UsernameUniqueViolationException;
 import com.mballen.demoparkapi.exceptionUsuario.UsuarioNotFoundException;
@@ -29,7 +30,7 @@ public class ApiExceptionHandler {
                 .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, "Campo(s) inválido(s)", bindingResult));
     }
 
-    @ExceptionHandler(UsernameUniqueViolationException.class)
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> errorMensageUsernameUniqueViolationException(RuntimeException exception,
                                                                                      HttpServletRequest request){
         log.error("Api erro - ", exception );

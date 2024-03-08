@@ -1,8 +1,8 @@
 package com.mballen.demoparkapi.service;
 
-import com.mballen.demoparkapi.dto.UsuarioCreatDto;
-import com.mballen.demoparkapi.dto.UsuarioListDto;
-import com.mballen.demoparkapi.dto.UsuarioPatchSenhaDto;
+import com.mballen.demoparkapi.dto.usuario.UsuarioCreatDto;
+import com.mballen.demoparkapi.dto.usuario.UsuarioListDto;
+import com.mballen.demoparkapi.dto.usuario.UsuarioPatchSenhaDto;
 import com.mballen.demoparkapi.entity.Usuario;
 import com.mballen.demoparkapi.exceptionUsuario.PasswordInvalidException;
 import com.mballen.demoparkapi.exceptionUsuario.UsernameUniqueViolationException;
